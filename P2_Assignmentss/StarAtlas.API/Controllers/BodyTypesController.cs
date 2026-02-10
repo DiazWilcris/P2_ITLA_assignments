@@ -38,5 +38,60 @@ namespace StarAtlas.API.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBodyTypes", new { id = bodyType.Id }, bodyType);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBodyType(int id, BodyType bodyType)
+        {
+            if (id != bodyType.Id)
+            {
+                return BadRequest("The ID in the URL does not match the ID in the body.");
+            }
+
+            _context.Entry(bodyType).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BodyTypeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBodyType(int id)
+        {
+            var bodyType = await _context.BodyTypes.FindAsync(id);
+            if (bodyType == null)
+            {
+                return NotFound();
+            }
+
+            var isUsed = await _context.CelestialBodies.AnyAsync(c => c.BodyTypeId == id);
+            if (isUsed)
+            {
+                return BadRequest("Cannot delete this type because it is assigned to existing Celestial Bodies. Delete the stars first.");
+            }
+
+            _context.BodyTypes.Remove(bodyType);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool BodyTypeExists(int id)
+        {
+            return _context.BodyTypes.Any(e => e.Id == id);
+        }
     }
 }

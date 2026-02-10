@@ -66,5 +66,47 @@ namespace StarAtlas.API.Controllers
                 new { celestialBodyId = observation.CelestialBodyId },
                 new { Message = "Observation recorded successfully!", Id = observation.Id });
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateObservation(int id, [FromBody] CreateObservationDto dto)
+        {
+            var existingObservation = await _context.Observations.FindAsync(id);
+
+            if (existingObservation == null)
+            {
+                return NotFound("Observation not found.");
+            }
+
+            existingObservation.PersonalNote = dto.PersonalNote;
+            existingObservation.Location = dto.Location;
+            existingObservation.ObservationDate = DateTime.Now;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw; 
+            }
+
+            return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteObservation(int id)
+        {
+            var observation = await _context.Observations.FindAsync(id);
+            if (observation == null)
+            {
+                return NotFound("Observation not found.");
+            }
+
+            _context.Observations.Remove(observation);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
