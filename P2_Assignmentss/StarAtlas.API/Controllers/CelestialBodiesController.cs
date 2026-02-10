@@ -43,74 +43,12 @@ namespace StarAtlas.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CelestialBody>> PostCelestialBody(CreateCelestialBodyDto dto)
+        public async Task<ActionResult<CelestialBody>> PostCelestialBody(CelestialBody celestialBody)
         {
-            var celestialBody = new CelestialBody
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                DistanceLightYears = dto.DistanceLightYears,
-                DiscoveryDate = dto.DiscoveryDate,
-                BodyTypeId = dto.BodyTypeId
-            };
-
             _context.CelestialBodies.Add(celestialBody);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCelestialBody", new { id = celestialBody.Id }, celestialBody);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCelestialBody(int id, UpdateCelestialBodyDto dto)
-        {
-            if (id != dto.Id)
-            {
-                return BadRequest("El ID de la URL no coincide con el ID del cuerpo del mensaje.");
-            }
-
-            var existingBody = await _context.CelestialBodies.FindAsync(id);
-            if (existingBody == null)
-            {
-                return NotFound($"No se encontró el astro con ID {id}");
-            }
-
-            existingBody.Name = dto.Name;
-            existingBody.Description = dto.Description;
-            existingBody.DistanceLightYears = dto.DistanceLightYears;
-            existingBody.DiscoveryDate = dto.DiscoveryDate;
-            existingBody.BodyTypeId = dto.BodyTypeId;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
-
-            return NoContent();
-        }
-
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCelestialBody(int id)
-        {
-            var celestialBody = await _context.CelestialBodies.FindAsync(id);
-            if (celestialBody == null)
-            {
-                return NotFound($"Celestial Body with ID {id} not found.");
-            }
-
-            _context.CelestialBodies.Remove(celestialBody);
-            await _context.SaveChangesAsync();
-
-            return NoContent(); 
-        }
-
-        private bool CelestialBodyExists(int id)
-        {
-            return _context.CelestialBodies.Any(e => e.Id == id);
         }
     }
 }
