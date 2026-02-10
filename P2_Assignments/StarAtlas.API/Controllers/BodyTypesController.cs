@@ -44,7 +44,7 @@ namespace StarAtlas.API.Controllers
         {
             if (id != bodyType.Id)
             {
-                return BadRequest("The ID in the URL does not match the ID in the body.");
+                return BadRequest("The ID does not match the ID in the body.");
             }
 
             _context.Entry(bodyType).State = EntityState.Modified;
