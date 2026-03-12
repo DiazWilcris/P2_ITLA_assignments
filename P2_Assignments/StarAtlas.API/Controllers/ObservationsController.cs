@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StarAtlas.API.Data;
-using StarAtlas.API.Models.Entities;
 using StarAtlas.API.Models.Dtos;
+using StarAtlas.Domain.Entities;
+using StarAtlas.Infrastructure.Repositories;
 
 namespace StarAtlas.API.Controllers
 {
@@ -10,46 +10,37 @@ namespace StarAtlas.API.Controllers
     [ApiController]
     public class ObservationsController : ControllerBase
     {
-        private readonly StarAtlasContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
-        public ObservationsController(StarAtlasContext context)
+        public ObservationsController(UnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("star/{celestialBodyId}")]
         public async Task<ActionResult<IEnumerable<ObservationDto>>> GetObservationsByBody(int celestialBodyId)
         {
-            var observations = await _context.Observations
-                                             .Include(o => o.CelestialBody) 
-                                             .Where(o => o.CelestialBodyId == celestialBodyId)
-                                             .OrderByDescending(o => o.ObservationDate) 
-                                             .Select(o => new ObservationDto
-                                             {
-                                                 Id = o.Id,
-                                                 Date = o.ObservationDate,
-                                                 Location = o.Location ?? "Unknown", 
-                                                 Note = o.PersonalNote,
-                                                 CelestialBodyName = o.CelestialBody != null ? o.CelestialBody.Name : "Unknown"
-                                             })
-                                             .ToListAsync();
+            var observations = await _unitOfWork.ObservationRepository.GetObservationsByStarAsync(celestialBodyId);
 
-            if (!observations.Any())
+            if (!observations.Any()) return NotFound("No observations found for this celestial body.");
+
+            var dtos = observations.Select(o => new ObservationDto
             {
-                return NotFound("No observations found for this celestial body.");
-            }
+                Id = o.Id,
+                Date = o.ObservationDate,
+                Location = o.Location ?? "Unknown",
+                Note = o.PersonalNote,
+                CelestialBodyName = o.CelestialBody != null ? o.CelestialBody.Name : "Unknown"
+            }).ToList();
 
-            return Ok(observations);
+            return Ok(dtos);
         }
 
         [HttpPost]
         public async Task<ActionResult<ObservationDto>> CreateObservation(CreateObservationDto dto)
         {
-            var bodyExists = await _context.CelestialBodies.AnyAsync(b => b.Id == dto.CelestialBodyId);
-            if (!bodyExists)
-            {
-                return BadRequest("Celestial Body ID not found.");
-            }
+            var existingBody = await _unitOfWork.CelestialBodyRepository.GetByIdAsync(dto.CelestialBodyId);
+            if (existingBody == null) return BadRequest("Celestial Body ID not found.");
 
             var observation = new Observation
             {
@@ -59,8 +50,8 @@ namespace StarAtlas.API.Controllers
                 ObservationDate = DateTime.Now
             };
 
-            _context.Observations.Add(observation);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.ObservationRepository.AddAsync(observation);
+            await _unitOfWork.CompleteAsync();
 
             return CreatedAtAction(nameof(GetObservationsByBody),
                 new { celestialBodyId = observation.CelestialBodyId },
@@ -70,41 +61,33 @@ namespace StarAtlas.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateObservation(int id, [FromBody] CreateObservationDto dto)
         {
-            var existingObservation = await _context.Observations.FindAsync(id);
+            var existingObservation = await _unitOfWork.ObservationRepository.GetByIdAsync(id);
 
-            if (existingObservation == null)
-            {
-                return NotFound("Observation not found.");
-            }
+            if (existingObservation == null) return NotFound("Observation not found.");
 
             existingObservation.PersonalNote = dto.PersonalNote;
             existingObservation.Location = dto.Location;
             existingObservation.ObservationDate = DateTime.Now;
 
+            _unitOfWork.ObservationRepository.Update(existingObservation);
+
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.CompleteAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw; 
-            }
+            catch (DbUpdateConcurrencyException) { throw; }
 
             return NoContent();
         }
 
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteObservation(int id)
         {
-            var observation = await _context.Observations.FindAsync(id);
-            if (observation == null)
-            {
-                return NotFound("Observation not found.");
-            }
+            var observation = await _unitOfWork.ObservationRepository.GetByIdAsync(id);
+            if (observation == null) return NotFound("Observation not found.");
 
-            _context.Observations.Remove(observation);
-            await _context.SaveChangesAsync();
+            _unitOfWork.ObservationRepository.Delete(observation);
+            await _unitOfWork.CompleteAsync();
 
             return NoContent();
         }

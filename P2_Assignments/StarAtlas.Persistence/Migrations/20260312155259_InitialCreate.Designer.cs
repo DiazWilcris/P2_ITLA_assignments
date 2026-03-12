@@ -3,26 +3,29 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using StarAtlas.API.Data;
+using StarAtlas.Persistence.Context;
 
 #nullable disable
 
-namespace StarAtlas.API.Migrations
+namespace StarAtlas.Persistence.Migrations
 {
     [DbContext(typeof(StarAtlasContext))]
-    partial class StarAtlasContextModelSnapshot : ModelSnapshot
+    [Migration("20260312155259_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.2")
+                .HasAnnotation("ProductVersion", "10.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("StarAtlas.API.Models.Entities.BodyType", b =>
+            modelBuilder.Entity("StarAtlas.Domain.Entities.BodyType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +42,7 @@ namespace StarAtlas.API.Migrations
                     b.ToTable("BodyTypes");
                 });
 
-            modelBuilder.Entity("StarAtlas.API.Models.Entities.CelestialBody", b =>
+            modelBuilder.Entity("StarAtlas.Domain.Entities.CelestialBody", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +73,7 @@ namespace StarAtlas.API.Migrations
                     b.ToTable("CelestialBodies");
                 });
 
-            modelBuilder.Entity("StarAtlas.API.Models.Entities.Observation", b =>
+            modelBuilder.Entity("StarAtlas.Domain.Entities.Observation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,9 +101,9 @@ namespace StarAtlas.API.Migrations
                     b.ToTable("Observations");
                 });
 
-            modelBuilder.Entity("StarAtlas.API.Models.Entities.CelestialBody", b =>
+            modelBuilder.Entity("StarAtlas.Domain.Entities.CelestialBody", b =>
                 {
-                    b.HasOne("StarAtlas.API.Models.Entities.BodyType", "BodyType")
+                    b.HasOne("StarAtlas.Domain.Entities.BodyType", "BodyType")
                         .WithMany()
                         .HasForeignKey("BodyTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -109,9 +112,9 @@ namespace StarAtlas.API.Migrations
                     b.Navigation("BodyType");
                 });
 
-            modelBuilder.Entity("StarAtlas.API.Models.Entities.Observation", b =>
+            modelBuilder.Entity("StarAtlas.Domain.Entities.Observation", b =>
                 {
-                    b.HasOne("StarAtlas.API.Models.Entities.CelestialBody", "CelestialBody")
+                    b.HasOne("StarAtlas.Domain.Entities.CelestialBody", "CelestialBody")
                         .WithMany()
                         .HasForeignKey("CelestialBodyId")
                         .OnDelete(DeleteBehavior.Cascade)

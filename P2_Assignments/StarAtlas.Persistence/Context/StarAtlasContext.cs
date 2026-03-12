@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StarAtlas.API.Models.Entities; 
+using StarAtlas.Domain.Entities;
 
-namespace StarAtlas.API.Data
+namespace StarAtlas.Persistence.Context
 {
     public class StarAtlasContext : DbContext
     {
