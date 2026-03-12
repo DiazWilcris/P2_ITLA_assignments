@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StarAtlas.API.Models.Entities
+namespace StarAtlas.Domain.Entities
 {
     public class Observation
     {
