@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StarAtlas.API.Models.Entities 
+namespace StarAtlas.Domain.Entities
 {
     public class BodyType
     {

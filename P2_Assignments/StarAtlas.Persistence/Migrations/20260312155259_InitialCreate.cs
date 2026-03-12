@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace StarAtlas.API.Migrations
+namespace StarAtlas.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
