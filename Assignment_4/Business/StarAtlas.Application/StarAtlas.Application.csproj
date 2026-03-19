@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StarAtlas.Infrastructure\StarAtlas.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Data\StarAtlas.Infrastructure\StarAtlas.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StarAtlas.API.Models.Dtos;
-using StarAtlas.Application.Dtos;
-using StarAtlas.Application.Responses;
 using StarAtlas.Application.Services;
 
 namespace StarAtlas.API.Controllers
