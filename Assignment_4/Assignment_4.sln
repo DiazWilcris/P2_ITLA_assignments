@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11505.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarAtlas.API", "StarAtlas.API\StarAtlas.API.csproj", "{269AE11D-7631-D5AD-75BE-81C8D390D951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarAtlas.Domain", "StarAtlas.Domain\StarAtlas.Domain.csproj", "{5B120B35-9470-4728-B288-43DA0BCE1BB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarAtlas.Persistence", "StarAtlas.Persistence\StarAtlas.Persistence.csproj", "{F020EB13-CFD3-4D14-A65A-F06AF11DE53D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarAtlas.Infrastructure", "StarAtlas.Infrastructure\StarAtlas.Infrastructure.csproj", "{B58A1D96-F0F7-4DD5-8745-6364B079936B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{054B5520-08C6-4291-84E9-F1A7F3330FFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{4D5A5555-C86D-41C5-BA9E-91B681CCFAC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{327F3C4C-33A1-493B-8353-129CEB8BB4DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarAtlas.Application", "StarAtlas.Application\StarAtlas.Application.csproj", "{4EE92D5C-6F30-4986-BAF4-955F5B85A750}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{269AE11D-7631-D5AD-75BE-81C8D390D951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269AE11D-7631-D5AD-75BE-81C8D390D951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269AE11D-7631-D5AD-75BE-81C8D390D951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269AE11D-7631-D5AD-75BE-81C8D390D951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B120B35-9470-4728-B288-43DA0BCE1BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B120B35-9470-4728-B288-43DA0BCE1BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B120B35-9470-4728-B288-43DA0BCE1BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B120B35-9470-4728-B288-43DA0BCE1BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F020EB13-CFD3-4D14-A65A-F06AF11DE53D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F020EB13-CFD3-4D14-A65A-F06AF11DE53D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F020EB13-CFD3-4D14-A65A-F06AF11DE53D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F020EB13-CFD3-4D14-A65A-F06AF11DE53D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B58A1D96-F0F7-4DD5-8745-6364B079936B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B58A1D96-F0F7-4DD5-8745-6364B079936B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B58A1D96-F0F7-4DD5-8745-6364B079936B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B58A1D96-F0F7-4DD5-8745-6364B079936B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE92D5C-6F30-4986-BAF4-955F5B85A750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE92D5C-6F30-4986-BAF4-955F5B85A750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE92D5C-6F30-4986-BAF4-955F5B85A750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE92D5C-6F30-4986-BAF4-955F5B85A750}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{269AE11D-7631-D5AD-75BE-81C8D390D951} = {054B5520-08C6-4291-84E9-F1A7F3330FFD}
+		{5B120B35-9470-4728-B288-43DA0BCE1BB8} = {327F3C4C-33A1-493B-8353-129CEB8BB4DD}
+		{F020EB13-CFD3-4D14-A65A-F06AF11DE53D} = {327F3C4C-33A1-493B-8353-129CEB8BB4DD}
+		{B58A1D96-F0F7-4DD5-8745-6364B079936B} = {327F3C4C-33A1-493B-8353-129CEB8BB4DD}
+		{4EE92D5C-6F30-4986-BAF4-955F5B85A750} = {4D5A5555-C86D-41C5-BA9E-91B681CCFAC5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F0AD6BE-A02C-4FC4-899B-B44A9203EF9A}
+	EndGlobalSection
+EndGlobal
