@@ -1,0 +1,6 @@
+@StarAtlas.API_HostAddress = http://localhost:5141/swagger/index.html
+
+GET {{StarAtlas.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
